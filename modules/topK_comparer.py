@@ -41,6 +41,7 @@ def compare_past_conversations_topK(documents, section_id_input):
                 "Posição topK após ajuste": section_check['api_position'],
                 "Posição mudou?": section_check['position_changed'],
                 "Id Hub": document['cloudChatId'],
+                "Resposta Claudia": document['response']['rawFinalAnswer'],
                 "Intent": active_intent
             })
     return results
