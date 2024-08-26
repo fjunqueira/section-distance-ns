@@ -7,7 +7,12 @@ def compare_negative_feedback_topK(joined_docs, section_id_input):
     for joined_doc in joined_docs:
         feedback = joined_doc
         revision = joined_doc.get('revision_data', {})
-        user_query = revision.get('response', {}).get('userQuery', '')
+        
+        # Determine user_query based on the feedback
+        user_query = feedback.get('sectionExistenceCheck', {}).get('searchSentence', '')
+        if not user_query.strip():
+            user_query = revision.get('response', {}).get('userQuery', '')
+
         active_intent = revision.get('conversation', {}).get('activeIntent', '')
 
         # Get distances from API
@@ -35,6 +40,7 @@ def compare_negative_feedback_topK(joined_docs, section_id_input):
             "Intent": active_intent
         })
     return results
+
 
 def compare_past_conversations_topK(documents, section_id_input):
     results = []
