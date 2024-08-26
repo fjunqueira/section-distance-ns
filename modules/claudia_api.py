@@ -20,6 +20,7 @@ def update_section_api(section, headers):
     }
     response = requests.put(api_url, headers=headers, json=payload)
     return response
+import requests
 
 def get_distances_from_api(user_query, active_intent):
     api_url = "https://claudia-api.us-east-1.prd.cloudhumans.io/api/semantic-search/ids/distance"
@@ -29,5 +30,21 @@ def get_distances_from_api(user_query, active_intent):
         "topK": 5,
         "intent": active_intent
     }
-    response = requests.post(api_url, json=payload)
-    return response.json()
+    
+    try:
+        response = requests.post(api_url, json=payload)
+        response.raise_for_status()  # Raises an HTTPError for bad responses (4xx and 5xx)
+    except requests.exceptions.RequestException as e:
+        print(f"Request failed: {e}")
+        return None
+
+    try:
+        # Print the raw response content for debugging
+        print("Response content:", response.text)
+        data = response.json()
+    except ValueError as e:
+        print(f"JSON deserialization failed: {e}")
+        return None
+
+    return data
+
