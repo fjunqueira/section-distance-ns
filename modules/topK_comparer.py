@@ -7,7 +7,7 @@ def compare_negative_feedback_topK(joined_docs, section_id_input):
     for joined_doc in joined_docs:
         feedback = joined_doc
         revision = joined_doc['revision_data']
-        user_query = feedback['sectionExistenceCheck']['searchSentence']
+        user_query = revision['response']['userQuery']
         active_intent = revision.get('conversation', {}).get('activeIntent', "")
         distances_response = get_distances_from_api(user_query, active_intent)
         section_check = get_position_differences(distances_response, revision['response']['sections'], section_id_input)
@@ -33,7 +33,7 @@ def compare_past_conversations_topK(documents, section_id_input):
         if user_query and active_intent:
             distances_response = get_distances_from_api(user_query, active_intent)
             section_check = get_position_differences(distances_response, document['response']['sections'], section_id_input)
-
+            print(document)
             results.append({
                 "Mensagem Usuário": user_query,
                 "Pergunta presente após ajuste?": section_check['found_in_api'],
