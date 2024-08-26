@@ -9,9 +9,9 @@ def compare_negative_feedback_topK(joined_docs, section_id_input):
         revision = joined_doc.get('revision_data', {})
         
         # Determine user_query based on the feedback
-        user_query = feedback.get('sectionExistenceCheck', {}).get('searchSentence', '')
+        user_query = revision.get('response', {}).get('userQuery', '')
         if not user_query.strip():
-            user_query = revision.get('response', {}).get('userQuery', '')
+            user_query = feedback.get('sectionExistenceCheck', {}).get('searchSentence', '')
 
         active_intent = revision.get('conversation', {}).get('activeIntent', '')
 
