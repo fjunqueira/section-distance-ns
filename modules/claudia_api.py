@@ -24,6 +24,12 @@ def update_section_api(section, headers):
 
 def get_distances_from_api(user_query, active_intent):
     api_url = "https://claudia-api.us-east-1.prd.cloudhumans.io/api/semantic-search/ids/distance"
+    
+    # Ensure that user_query is not empty
+    if not user_query.strip():
+        print("Error: The 'message' field cannot be empty.")
+        return None
+
     payload = {
         "projectName": "nuvemshop",
         "message": user_query,
@@ -60,4 +66,3 @@ def get_distances_from_api(user_query, active_intent):
             print("Failed Response Content:", e.response.text)
         
         return None
-
