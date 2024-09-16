@@ -26,7 +26,7 @@ def main():
     if st.button("Fetch Section"):
         try:
             section_id = ObjectId(section_id_input)
-            section = get_actual_section_data(str(section_id), "nuvemshop")
+            section = get_actual_section_data(str(section_id), "nuvemshopar")
 
             if section:
                 st.session_state['section'] = section
